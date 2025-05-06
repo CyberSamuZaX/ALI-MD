@@ -149,6 +149,69 @@ cmd({
         return reply(`❌ An error occurred: ${error.message}`);
     }
 });
+
+
+////////////////////////..
+cmd({
+    pattern: "podi",
+    desc: "Get a response from Llama3 AI using the provided prompt.",
+    category: "ai",
+    react: "🤖",
+    filename: __filename,
+    use: ".llama3 <your prompt>"
+}, async (conn, mek, m, { from, q, reply }) => {
+    try {
+        // Check if a prompt is provided by the user
+        if (!q) return reply("⚠️ Please provide a prompt for Llama3 AI.");
+
+        // Inform the user that the request is being processed
+        await reply("> *Processing your prompt...*");
+
+        // API URL with encoded user prompt
+        const apiUrl = `https://apis.davidcyriltech.my.id/ai/gpt4?text=${encodeURIComponent(q)}`;
+
+        // Send a GET request to the API
+        const response = await axios.get(apiUrl);
+        console.log("podi sadu Response:", response.data);
+
+        // Extract AI response
+        let llamaResponse;
+        if (typeof response.data === "string") {
+            llamaResponse = response.data.trim();
+        } else if (typeof response.data === "object") {
+            llamaResponse = response.data.response || response.data.result || JSON.stringify(response.data);
+        } else {
+            llamaResponse = "Unable to process the AI response.";
+        }
+
+        // AI image to attach
+        const AI_IMG = 'https://i.ibb.co/JjD7C5sj/4396ea90a1dcd020.jpg'; // Replace with a valid image URL
+
+        // Formatted response text
+        const formattedInfo = `*podi sadu ʀᴇsᴘᴏɴsᴇ:*\n\n${llamaResponse}`;
+
+        // Send the response with an image
+        await conn.sendMessage(from, {
+            image: { url: AI_IMG }, // Ensure the URL is valid
+            caption: formattedInfo,
+            contextInfo: { 
+                mentionedJid: [m.sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363318387454868@newsletter',
+                    newsletterName: '𝐀ɭι̇ι̇ 𝐌Ɗ 𝐀𝐈 🤖',
+                    serverMessageId: 143
+                }
+            }
+        }, { quoted: mek });
+
+    } catch (error) {
+        console.error("Error in llama3 command:", error);
+        return reply(`❌ An error occurred: ${error.message}`);
+    }
+});
+//////////////////////
 cmd({
     pattern: "openai",
     alias: ["chatgpt", "gpt3", "open-gpt"],
