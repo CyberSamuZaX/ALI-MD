@@ -213,7 +213,7 @@ cmd({
 });
 //////////////////////
 cmd({
-    pattern: "openai",
+    pattern: "podisadu",
     alias: ["chatgpt", "gpt3", "open-gpt"],
     desc: "Chat with OpenAI",
     category: "ai",
@@ -232,7 +232,7 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
             return reply("OpenAI failed to respond. Please try again later.");
         }
 
-        await reply(`🧠 *OpenAI Response:*\n\n${data.result}`);
+        await reply(`🧠 *පොඩි සාදු Response:*\n\n${data.result}`);
         await react("✅");
     } catch (e) {
         console.error("Error in OpenAI command:", e);
@@ -242,7 +242,7 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
 });
 
 cmd({
-    pattern: "deepseek",
+    pattern: "podisadu1",
     alias: ["deep", "seekai"],
     desc: "Chat with DeepSeek AI",
     category: "ai",
@@ -261,7 +261,7 @@ async (conn, mek, m, { from, args, q, reply, react }) => {
             return reply("DeepSeek AI failed to respond. Please try again later.");
         }
 
-        await reply(`🧠 *DeepSeek AI Response:*\n\n${data.answer}`);
+        await reply(`🧠 *පොඩි සාදු Response:*\n\n${data.answer}`);
         await react("✅");
     } catch (e) {
         console.error("Error in DeepSeek AI command:", e);
